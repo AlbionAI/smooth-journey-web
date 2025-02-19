@@ -9,23 +9,123 @@ const WalletConnect = () => {
   const [address, setAddress] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const connectWallet = async () => {
-    setIsConnecting(true);
+  const connectPhantom = async () => {
     try {
-      // Check if MetaMask is installed
-      if (typeof window.ethereum !== 'undefined') {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const userAddress = accounts[0];
-        setAddress(userAddress);
+      if ('solana' in window) {
+        const provider = window.solana;
+        if (provider?.isPhantom) {
+          await provider.connect();
+          const address = provider.publicKey?.toString();
+          if (address) {
+            setAddress(address);
+            toast({
+              title: "Phantom Wallet Connected",
+              description: `Connected to ${address.slice(0, 6)}...${address.slice(-4)}`,
+            });
+          }
+        } else {
+          window.open('https://phantom.app/', '_blank');
+          toast({
+            variant: "destructive",
+            title: "Phantom not found",
+            description: "Please install Phantom wallet",
+          });
+        }
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Connection Failed",
+        description: "Failed to connect Phantom wallet",
+      });
+    }
+  };
+
+  const connectSolflare = async () => {
+    try {
+      if ('solflare' in window) {
+        const provider = window.solflare;
+        await provider.connect();
+        const address = provider.publicKey?.toString();
+        if (address) {
+          setAddress(address);
+          toast({
+            title: "Solflare Wallet Connected",
+            description: `Connected to ${address.slice(0, 6)}...${address.slice(-4)}`,
+          });
+        }
+      } else {
+        window.open('https://solflare.com/', '_blank');
         toast({
-          title: "Wallet Connected",
-          description: `Connected to ${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`,
+          variant: "destructive",
+          title: "Solflare not found",
+          description: "Please install Solflare wallet",
         });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Connection Failed",
+        description: "Failed to connect Solflare wallet",
+      });
+    }
+  };
+
+  const connectMetaMaskSolana = async () => {
+    try {
+      if (typeof window.ethereum !== 'undefined') {
+        // Check if MetaMask has Solana support
+        if ('isSolana' in window.ethereum) {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const userAddress = accounts[0];
+          setAddress(userAddress);
+          toast({
+            title: "MetaMask Solana Connected",
+            description: `Connected to ${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`,
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "MetaMask Solana not supported",
+            description: "Please install MetaMask Solana extension",
+          });
+        }
       } else {
         toast({
           variant: "destructive",
           title: "MetaMask not found",
-          description: "Please install MetaMask to connect your wallet",
+          description: "Please install MetaMask to connect",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Connection Failed",
+        description: "Failed to connect MetaMask Solana",
+      });
+    }
+  };
+
+  const connectWallet = async () => {
+    setIsConnecting(true);
+    try {
+      // Try connecting to Phantom first
+      if ('solana' in window && window.solana?.isPhantom) {
+        await connectPhantom();
+      }
+      // Try Solflare next
+      else if ('solflare' in window) {
+        await connectSolflare();
+      }
+      // Finally try MetaMask Solana
+      else if (typeof window.ethereum !== 'undefined') {
+        await connectMetaMaskSolana();
+      }
+      else {
+        toast({
+          variant: "destructive",
+          title: "No wallet found",
+          description: "Please install Phantom, Solflare, or MetaMask Solana",
         });
       }
     } catch (error) {
