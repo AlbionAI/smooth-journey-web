@@ -1,9 +1,10 @@
 
 import { motion } from "framer-motion";
+import { Button } from "./ui/button";
 
 const Hero = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0B1220] -mt-16">
+    <div className="min-h-screen flex items-center justify-center bg-[#0B1220] pt-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.h1 
           className="text-5xl sm:text-6xl font-bold text-white mb-6"
@@ -21,6 +22,19 @@ const Hero = () => {
         >
           No coding required, launched in seconds the professional way.
         </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="inline-block"
+        >
+          <Button 
+            size="lg" 
+            className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8 py-6 text-lg rounded-xl transition-all transform hover:scale-105"
+          >
+            Select Wallet
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
