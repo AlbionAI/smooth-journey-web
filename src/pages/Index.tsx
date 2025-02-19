@@ -36,8 +36,8 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen w-full relative">
-      <div className="fixed inset-0 w-full h-full">
+    <div className="w-screen h-screen overflow-x-hidden relative">
+      <div className="fixed top-0 left-0 w-full h-full">
         <Squares 
           direction="diagonal"
           speed={0.5}
@@ -46,7 +46,7 @@ const Index = () => {
           hoverFillColor="#222222"
         />
       </div>
-      <div className="relative z-10">
+      <div className="relative z-10 min-h-screen">
         <Navbar />
         {!showForm ? (
           <Hero onWalletConnected={handleWalletConnected} />
