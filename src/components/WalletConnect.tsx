@@ -134,7 +134,7 @@ const WalletConnect = () => {
   return address ? (
     <Button 
       size="lg" 
-      className="bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 font-semibold px-8 py-6 text-lg rounded-xl transition-all"
+      className="bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 font-semibold px-8 py-6 text-lg rounded-xl transition-all flex items-center justify-center"
     >
       <Wallet className="mr-2 h-5 w-5" />
       {`${address.slice(0, 6)}...${address.slice(-4)}`}
@@ -142,7 +142,7 @@ const WalletConnect = () => {
   ) : (
     <Button 
       size="lg" 
-      className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8 py-6 text-lg rounded-xl transition-all transform hover:scale-105"
+      className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8 py-6 text-lg rounded-xl transition-all transform hover:scale-105 flex items-center justify-center"
       onClick={handleConnectWallet}
       disabled={isConnecting}
     >

@@ -4,8 +4,8 @@ import WalletConnect from "./WalletConnect";
 
 const Hero = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0B1220] pt-16">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div className="min-h-screen flex items-center justify-center bg-[#0B1220]">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center -mt-16">
         <motion.h1 
           className="text-5xl sm:text-6xl font-bold text-white mb-6"
           initial={{ opacity: 0, y: 20 }}
