@@ -127,22 +127,25 @@ const TokenDetails = ({ onNext }: TokenDetailsProps) => {
             Logo
           </label>
           <div 
-            className="border-2 border-dashed border-gray-700 rounded-lg p-8 text-center cursor-pointer hover:border-emerald-500 transition-colors"
+            className="min-h-[300px] border-2 border-dashed border-emerald-500/50 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-emerald-500 transition-colors relative"
             onClick={() => fileInputRef.current?.click()}
             onDrop={handleDrop}
             onDragOver={(e) => e.preventDefault()}
           >
             {image ? (
-              <div className="w-[200px] h-[200px] mx-auto rounded-full overflow-hidden bg-black">
-                <img 
-                  src={image} 
-                  alt="Token Logo" 
-                  className="w-full h-full object-contain"
-                />
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-[200px] h-[200px] rounded-full overflow-hidden bg-black border-4 border-black">
+                  <img 
+                    src={image} 
+                    alt="Token Logo" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <p className="text-emerald-500">Logo uploaded and resized to 500x500!</p>
               </div>
             ) : (
-              <div className="text-gray-400">
-                <Upload className="w-12 h-12 mx-auto mb-4" />
+              <div className="text-gray-400 flex flex-col items-center">
+                <Upload className="w-12 h-12 mb-4 text-emerald-500/50" />
                 <p>Drop your token logo here</p>
                 <p className="text-sm mt-2">Images larger than 512x512 will be resized</p>
               </div>
