@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import TokenDetails from '../components/TokenForm/TokenDetails';
+import TokenSupply from '../components/TokenForm/TokenSupply';
 import FormProgress from '../components/TokenForm/FormProgress';
 
 const STEPS = [
@@ -19,6 +20,17 @@ const Index = () => {
     setShowForm(true);
   };
 
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return <TokenDetails onNext={() => setCurrentStep(2)} />;
+      case 2:
+        return <TokenSupply onNext={() => setCurrentStep(3)} onBack={() => setCurrentStep(1)} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#0B1220]">
       <Navbar />
@@ -28,7 +40,7 @@ const Index = () => {
         <div className="min-h-screen pt-24 pb-12 px-4">
           <div className="max-w-4xl mx-auto">
             <FormProgress currentStep={currentStep} steps={STEPS} />
-            <TokenDetails onNext={() => setCurrentStep(2)} />
+            {renderStep()}
           </div>
         </div>
       )}
