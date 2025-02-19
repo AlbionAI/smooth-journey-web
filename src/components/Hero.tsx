@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import WalletConnect from "./WalletConnect";
+import { Button } from "./ui/button";
 
 const Hero = () => {
   return (
@@ -28,7 +28,12 @@ const Hero = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="inline-block"
         >
-          <WalletConnect />
+          <Button 
+            size="lg" 
+            className="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-8 py-6 text-lg rounded-xl transition-all transform hover:scale-105"
+          >
+            Select Wallet
+          </Button>
         </motion.div>
       </div>
     </div>
