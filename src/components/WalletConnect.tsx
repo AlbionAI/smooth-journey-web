@@ -76,34 +76,6 @@ const WalletConnect = () => {
     }
   };
 
-  const connectMetaMaskSolana = async () => {
-    try {
-      if (typeof window.ethereum !== 'undefined') {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const userAddress = accounts[0];
-        setAddress(userAddress);
-        setWalletType('metamask');
-        toast({
-          title: "Wallet Connected",
-          description: "Successfully connected to MetaMask",
-        });
-      } else {
-        window.open('https://metamask.io/', '_blank');
-        toast({
-          variant: "destructive",
-          title: "MetaMask not found",
-          description: "Please install MetaMask",
-        });
-      }
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Connection Failed",
-        description: "Failed to connect MetaMask",
-      });
-    }
-  };
-
   const handleConnectWallet = async () => {
     setIsConnecting(true);
     
@@ -115,16 +87,12 @@ const WalletConnect = () => {
     else if ('solflare' in window) {
       await connectSolflare();
     }
-    // Finally try MetaMask
-    else if (typeof window.ethereum !== 'undefined') {
-      await connectMetaMaskSolana();
-    }
     // No wallet found
     else {
       toast({
         variant: "destructive",
         title: "No wallet found",
-        description: "Please install Phantom, Solflare, or MetaMask",
+        description: "Please install Phantom or Solflare",
       });
     }
     
