@@ -28,25 +28,19 @@ const Navbar = () => {
               <Rocket className="w-4 h-4 mr-2" />
               Promote
             </Link>
-            <Link
-              to="/liquidity"
+            <a
+              href="https://raydium.io/liquidity-pools/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center px-3 py-2 rounded-lg text-gray-300 hover:text-emerald-400 transition-colors"
             >
               <Droplets className="w-4 h-4 mr-2" />
               Liquidity
-            </Link>
+            </a>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <button className="px-3 py-1 rounded-full text-sm text-gray-400 hover:text-gray-200 transition-colors">
-              Contract
-            </button>
-            <button className="px-3 py-1 rounded-full text-sm text-gray-400 hover:text-gray-200 transition-colors">
-              Liquidity
-            </button>
-            <button className="px-3 py-1 rounded-full text-sm text-gray-400 hover:text-gray-200 transition-colors">
-              Trading
-            </button>
+          <div className="w-[120px]">
+            {/* Empty div to maintain spacing for center alignment */}
           </div>
         </div>
       </div>
