@@ -1,4 +1,5 @@
-import { useState } from 'react';
+
+import { useState, useMemo } from 'react';
 import { Lock, Coins, FileEdit } from 'lucide-react';
 import { Switch } from "../../components/ui/switch";
 
@@ -6,11 +7,24 @@ interface TokenSocialProps {
   onBack: () => void;
 }
 
+const BASE_FEE = 0.07;
+const AUTHORITY_FEE = 0.1;
+const CREATOR_METADATA_FEE = 0.1;
+
 const TokenSocial = ({ onBack }: TokenSocialProps) => {
   const [revokeFreeze, setRevokeFreeze] = useState(false);
   const [revokeMint, setRevokeMint] = useState(false);
   const [revokeUpdate, setRevokeUpdate] = useState(false);
   const [modifyCreator, setModifyCreator] = useState(false);
+
+  const totalCost = useMemo(() => {
+    let cost = BASE_FEE;
+    if (revokeFreeze) cost += AUTHORITY_FEE;
+    if (revokeMint) cost += AUTHORITY_FEE;
+    if (revokeUpdate) cost += AUTHORITY_FEE;
+    if (modifyCreator) cost += CREATOR_METADATA_FEE;
+    return cost.toFixed(2);
+  }, [revokeFreeze, revokeMint, revokeUpdate, modifyCreator]);
 
   const handleCreateToken = () => {
     // Add token creation logic here
@@ -188,7 +202,7 @@ const TokenSocial = ({ onBack }: TokenSocialProps) => {
         <div className="flex items-center text-xl font-medium">
           <span className="mr-2">Total Cost:</span>
           <span className="text-[#00A3FF] flex items-center">
-            0.5
+            {totalCost}
             <Coins className="w-5 h-5 ml-1" />
           </span>
         </div>

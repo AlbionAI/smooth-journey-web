@@ -32,6 +32,7 @@ const TokenSupply = ({ onNext, onBack }: TokenSupplyProps) => {
           </label>
           <input
             type="text"
+            defaultValue="1000000000"
             className="w-full px-4 py-3 rounded-lg bg-[#0B1220] border border-gray-700 text-white focus:outline-none focus:border-emerald-500 transition-colors"
             placeholder="1000000000"
           />

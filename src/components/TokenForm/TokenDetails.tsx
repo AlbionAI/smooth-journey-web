@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { Upload } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
@@ -12,13 +11,24 @@ const TokenDetails = ({ onNext }: TokenDetailsProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
+  const handleNext = () => {
+    if (!image) {
+      toast({
+        variant: "destructive",
+        title: "Image Required",
+        description: "Please upload a token logo before proceeding",
+      });
+      return;
+    }
+    onNext();
+  };
+
   const resizeImage = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
-          // Only resize if image is larger than 512x512
           if (img.width > 512 || img.height > 512) {
             const canvas = document.createElement('canvas');
             canvas.width = 512;
@@ -26,23 +36,19 @@ const TokenDetails = ({ onNext }: TokenDetailsProps) => {
             const ctx = canvas.getContext('2d');
             
             if (ctx) {
-              // Calculate scaling to maintain aspect ratio
               const scale = Math.min(512 / img.width, 512 / img.height);
               const x = (512 - img.width * scale) / 2;
               const y = (512 - img.height * scale) / 2;
               
-              // Fill background with black for transparency
               ctx.fillStyle = '#000000';
               ctx.fillRect(0, 0, 512, 512);
               
-              // Draw image centered
               ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
               resolve(canvas.toDataURL('image/png'));
             } else {
               reject(new Error('Could not get canvas context'));
             }
           } else {
-            // If image is smaller than 512x512, use it as is
             const reader = new FileReader();
             reader.onload = () => resolve(reader.result as string);
             reader.onerror = reject;
@@ -162,7 +168,7 @@ const TokenDetails = ({ onNext }: TokenDetailsProps) => {
 
         <div className="flex justify-end">
           <button
-            onClick={onNext}
+            onClick={handleNext}
             className="px-6 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
           >
             Next
