@@ -1,5 +1,6 @@
 
 import { motion } from "framer-motion";
+import { Button } from "./ui/button";
 
 const Hero = () => {
   return (
@@ -21,6 +22,18 @@ const Hero = () => {
         >
           No coding required, launched in seconds the professional way.
         </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <Button 
+            size="lg"
+            className="bg-gradient-to-r from-[#8B5CF6] to-[#D6BCFA] hover:from-[#7C3AED] hover:to-[#C4B5FD] text-white font-semibold px-8 py-6 text-lg rounded-full transition-all transform hover:scale-105"
+          >
+            Select Wallet
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
