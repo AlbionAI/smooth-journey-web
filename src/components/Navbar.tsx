@@ -6,13 +6,26 @@ import { useEffect, useState } from "react";
 const Navbar = () => {
   const navigate = useNavigate();
   const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const [currentWalletKey, setCurrentWalletKey] = useState<string | null>(null);
 
   useEffect(() => {
     // Check if wallet is connected by looking for publicKey in window.solana or window.solflare
     const checkWalletConnection = () => {
-      const hasPhantom = window.solana?.isPhantom && window.solana.publicKey;
-      const hasSolflare = window.solflare?.publicKey;
-      setIsWalletConnected(!!hasPhantom || !!hasSolflare);
+      const phantomKey = window.solana?.isPhantom && window.solana.publicKey?.toString();
+      const solflareKey = window.solflare?.publicKey?.toString();
+      const newWalletKey = phantomKey || solflareKey || null;
+
+      // If the wallet key has changed (including to/from null), update state
+      if (newWalletKey !== currentWalletKey) {
+        setCurrentWalletKey(newWalletKey);
+        setIsWalletConnected(!!newWalletKey);
+        
+        if (!newWalletKey) {
+          // If we've lost connection, redirect and reload
+          navigate('/');
+          window.location.reload();
+        }
+      }
     };
 
     checkWalletConnection();
@@ -24,7 +37,7 @@ const Navbar = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, []);
+  }, [currentWalletKey, navigate]);
 
   const handleNavigation = (e: React.MouseEvent) => {
     e.preventDefault();
