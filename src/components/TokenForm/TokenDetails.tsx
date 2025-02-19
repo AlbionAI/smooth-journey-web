@@ -1,8 +1,6 @@
-
 import { useState, useRef } from "react";
 import { Upload } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
-import { uploadFileToQuickNode } from "../../utils/ipfs";
 
 interface TokenDetailsProps {
   onNext: () => void;
@@ -10,12 +8,11 @@ interface TokenDetailsProps {
 
 const TokenDetails = ({ onNext }: TokenDetailsProps) => {
   const [image, setImage] = useState<string | null>(null);
-  const [ipfsUri, setIpfsUri] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const handleNext = () => {
-    if (!image || !ipfsUri) {
+    if (!image) {
       toast({
         variant: "destructive",
         title: "Image Required",
@@ -71,20 +68,15 @@ const TokenDetails = ({ onNext }: TokenDetailsProps) => {
       try {
         const resizedImage = await resizeImage(file);
         setImage(resizedImage);
-        
-        // Upload to IPFS
-        const uri = await uploadFileToQuickNode(file);
-        setIpfsUri(uri);
-        
         toast({
           title: "Image uploaded",
-          description: "Image has been resized and uploaded to IPFS",
+          description: "Image has been resized to 500x500",
         });
       } catch (error) {
         toast({
           variant: "destructive",
           title: "Upload failed",
-          description: "Failed to process or upload the image",
+          description: "Failed to process the image",
         });
       }
     }
@@ -97,20 +89,15 @@ const TokenDetails = ({ onNext }: TokenDetailsProps) => {
       try {
         const resizedImage = await resizeImage(file);
         setImage(resizedImage);
-        
-        // Upload to IPFS
-        const uri = await uploadFileToQuickNode(file);
-        setIpfsUri(uri);
-        
         toast({
           title: "Image uploaded",
-          description: "Image has been resized and uploaded to IPFS",
+          description: "Image has been resized to 500x500",
         });
       } catch (error) {
         toast({
           variant: "destructive",
           title: "Upload failed",
-          description: "Failed to process or upload the image",
+          description: "Failed to process the image",
         });
       }
     }
