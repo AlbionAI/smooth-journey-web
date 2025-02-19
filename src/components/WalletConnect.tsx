@@ -4,9 +4,13 @@ import { Button } from "./ui/button";
 import { Wallet } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
 
-type WalletType = 'phantom' | 'solflare' | 'metamask' | null;
+type WalletType = 'phantom' | 'solflare' | null;
 
-const WalletConnect = () => {
+interface WalletConnectProps {
+  onConnect: () => void;
+}
+
+const WalletConnect = ({ onConnect }: WalletConnectProps) => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [address, setAddress] = useState<string | null>(null);
   const [walletType, setWalletType] = useState<WalletType>(null);
@@ -22,6 +26,7 @@ const WalletConnect = () => {
           if (address) {
             setAddress(address);
             setWalletType('phantom');
+            onConnect();
             toast({
               title: "Wallet Connected",
               description: "Successfully connected to Phantom",
@@ -54,6 +59,7 @@ const WalletConnect = () => {
         if (address) {
           setAddress(address);
           setWalletType('solflare');
+          onConnect();
           toast({
             title: "Wallet Connected",
             description: "Successfully connected to Solflare",

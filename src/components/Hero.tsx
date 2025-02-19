@@ -2,7 +2,11 @@
 import { motion } from "framer-motion";
 import WalletConnect from "./WalletConnect";
 
-const Hero = () => {
+interface HeroProps {
+  onWalletConnected: () => void;
+}
+
+const Hero = ({ onWalletConnected }: HeroProps) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0B1220]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center -mt-16">
@@ -28,7 +32,7 @@ const Hero = () => {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="inline-block"
         >
-          <WalletConnect />
+          <WalletConnect onConnect={onWalletConnected} />
         </motion.div>
       </div>
     </div>

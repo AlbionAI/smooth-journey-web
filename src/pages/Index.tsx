@@ -15,11 +15,15 @@ const Index = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [showForm, setShowForm] = useState(false);
 
+  const handleWalletConnected = () => {
+    setShowForm(true);
+  };
+
   return (
     <div className="min-h-screen bg-[#0B1220]">
       <Navbar />
       {!showForm ? (
-        <Hero />
+        <Hero onWalletConnected={handleWalletConnected} />
       ) : (
         <div className="min-h-screen pt-24 pb-12 px-4">
           <div className="max-w-4xl mx-auto">
