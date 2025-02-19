@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import TokenDetails from '../components/TokenForm/TokenDetails';
 import TokenSupply from '../components/TokenForm/TokenSupply';
+import TokenSocial from '../components/TokenForm/TokenSocial';
 import FormProgress from '../components/TokenForm/FormProgress';
 
 const STEPS = [
@@ -26,6 +27,8 @@ const Index = () => {
         return <TokenDetails onNext={() => setCurrentStep(2)} />;
       case 2:
         return <TokenSupply onNext={() => setCurrentStep(3)} onBack={() => setCurrentStep(1)} />;
+      case 3:
+        return <TokenSocial onBack={() => setCurrentStep(2)} />;
       default:
         return null;
     }

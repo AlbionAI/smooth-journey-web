@@ -18,26 +18,35 @@ const TokenDetails = ({ onNext }: TokenDetailsProps) => {
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = 500;
-          canvas.height = 500;
-          const ctx = canvas.getContext('2d');
-          
-          if (ctx) {
-            // Calculate scaling to maintain aspect ratio
-            const scale = Math.min(500 / img.width, 500 / img.height);
-            const x = (500 - img.width * scale) / 2;
-            const y = (500 - img.height * scale) / 2;
+          // Only resize if image is larger than 512x512
+          if (img.width > 512 || img.height > 512) {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            const ctx = canvas.getContext('2d');
             
-            // Optional: Fill background with black
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(0, 0, 500, 500);
-            
-            // Draw image centered
-            ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-            resolve(canvas.toDataURL('image/png'));
+            if (ctx) {
+              // Calculate scaling to maintain aspect ratio
+              const scale = Math.min(512 / img.width, 512 / img.height);
+              const x = (512 - img.width * scale) / 2;
+              const y = (512 - img.height * scale) / 2;
+              
+              // Fill background with black for transparency
+              ctx.fillStyle = '#000000';
+              ctx.fillRect(0, 0, 512, 512);
+              
+              // Draw image centered
+              ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+              resolve(canvas.toDataURL('image/png'));
+            } else {
+              reject(new Error('Could not get canvas context'));
+            }
           } else {
-            reject(new Error('Could not get canvas context'));
+            // If image is smaller than 512x512, use it as is
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
           }
         };
         img.src = e.target?.result as string;
@@ -124,12 +133,18 @@ const TokenDetails = ({ onNext }: TokenDetailsProps) => {
             onDragOver={(e) => e.preventDefault()}
           >
             {image ? (
-              <img src={image} alt="Token Logo" className="mx-auto w-[200px] h-[200px] object-contain" />
+              <div className="w-[200px] h-[200px] mx-auto rounded-full overflow-hidden bg-black">
+                <img 
+                  src={image} 
+                  alt="Token Logo" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
             ) : (
               <div className="text-gray-400">
                 <Upload className="w-12 h-12 mx-auto mb-4" />
                 <p>Drop your token logo here</p>
-                <p className="text-sm mt-2">Any size image will be resized to 500x500</p>
+                <p className="text-sm mt-2">Images larger than 512x512 will be resized</p>
               </div>
             )}
             <input
