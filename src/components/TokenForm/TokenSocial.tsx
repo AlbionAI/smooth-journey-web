@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { Lock, Coins, FileEdit } from 'lucide-react';
+import { Switch } from "../../components/ui/switch";
 
 interface TokenSocialProps {
   onBack: () => void;
@@ -63,6 +64,42 @@ const TokenSocial = ({ onBack }: TokenSocialProps) => {
       </div>
 
       <div className="pt-4 border-t border-gray-700">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-lg font-medium text-white">Modify Creator Information</h3>
+            <p className="text-sm text-gray-400">Additional cost: +0.1 SOL</p>
+          </div>
+          <Switch
+            checked={modifyCreator}
+            onCheckedChange={setModifyCreator}
+          />
+        </div>
+        
+        {modifyCreator && (
+          <div className="space-y-4 mb-6 p-4 rounded-lg bg-[#0B1220] border border-gray-700">
+            <div>
+              <label className="block text-sm font-medium text-gray-200 mb-2">
+                Creator Name
+              </label>
+              <input
+                type="text"
+                className="w-full px-4 py-3 rounded-lg bg-[#0B1220] border border-gray-700 text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                placeholder="MemeMint"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-200 mb-2">
+                Creator Website
+              </label>
+              <input
+                type="url"
+                className="w-full px-4 py-3 rounded-lg bg-[#0B1220] border border-gray-700 text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                placeholder="https://mememint.co"
+              />
+            </div>
+          </div>
+        )}
+
         <h3 className="text-lg font-medium text-white mb-2">Revoke Authorities</h3>
         <p className="text-sm text-gray-400 mb-4">
           Enhance trust and decentralization by revoking token authorities. This prevents
@@ -80,7 +117,7 @@ const TokenSocial = ({ onBack }: TokenSocialProps) => {
               <Lock className="w-6 h-6 text-[#00A3FF]" />
               <span className="text-[#00A3FF]">+0.1 SOL</span>
             </div>
-            <h4 className="text-lg font-medium mb-2">Revoke Freeze</h4>
+            <h4 className="text-lg font-medium mb-2">Revoke Freeze 🥶</h4>
             <p className="text-sm text-gray-400 mb-4">
               Freeze Authority allows you to freeze token accounts of holders.
             </p>
@@ -105,7 +142,7 @@ const TokenSocial = ({ onBack }: TokenSocialProps) => {
               <Coins className="w-6 h-6 text-[#00A3FF]" />
               <span className="text-[#00A3FF]">+0.1 SOL</span>
             </div>
-            <h4 className="text-lg font-medium mb-2">Revoke Mint</h4>
+            <h4 className="text-lg font-medium mb-2">Revoke Mint 💸</h4>
             <p className="text-sm text-gray-400 mb-4">
               Mint Authority allows you to mint more supply of your token.
             </p>
@@ -130,7 +167,7 @@ const TokenSocial = ({ onBack }: TokenSocialProps) => {
               <FileEdit className="w-6 h-6 text-[#00A3FF]" />
               <span className="text-[#00A3FF]">+0.1 SOL</span>
             </div>
-            <h4 className="text-lg font-medium mb-2">Revoke Update</h4>
+            <h4 className="text-lg font-medium mb-2">Revoke Update ✏️</h4>
             <p className="text-sm text-gray-400 mb-4">
               Update Authority allows you to update the token metadata.
             </p>
