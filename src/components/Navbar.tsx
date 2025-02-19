@@ -16,20 +16,21 @@ const Navbar = () => {
     };
 
     checkWalletConnection();
-    // Add event listeners for wallet connection changes
-    window.solana?.on('connect', checkWalletConnection);
-    window.addEventListener('solflare_connect', checkWalletConnection);
 
+    // Set up interval to periodically check wallet connection
+    const intervalId = setInterval(checkWalletConnection, 1000);
+
+    // Clean up interval on unmount
     return () => {
-      window.solana?.removeListener('connect', checkWalletConnection);
-      window.removeEventListener('solflare_connect', checkWalletConnection);
+      clearInterval(intervalId);
     };
   }, []);
 
   const handleNavigation = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (isWalletConnected) {
+    if (!isWalletConnected) {
       navigate('/');
+      window.location.reload(); // Force reload to ensure wallet connection prompt appears
     } else {
       navigate('/');
     }
