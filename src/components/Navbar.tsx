@@ -56,7 +56,7 @@ const Navbar = () => {
           <div className="flex items-center pl-8">
             <Link 
               to="/" 
-              className="text-emerald-400 text-xl font-semibold"
+              className="text-emerald-400 text-2xl font-semibold"
               onClick={handleNavigation}
             >
               MemeMint
