@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Lock, Coins, FileEdit } from 'lucide-react';
 import { Switch } from "../../components/ui/switch";
@@ -117,7 +116,7 @@ const TokenSocial = ({ onBack }: TokenSocialProps) => {
               <Lock className="w-6 h-6 text-[#00A3FF]" />
               <span className="text-[#00A3FF]">+0.1 SOL</span>
             </div>
-            <h4 className="text-lg font-medium mb-2">Revoke Freeze 🥶</h4>
+            <h4 className="text-lg font-medium mb-2">Revoke Freeze</h4>
             <p className="text-sm text-gray-400 mb-4">
               Freeze Authority allows you to freeze token accounts of holders.
             </p>
@@ -142,7 +141,7 @@ const TokenSocial = ({ onBack }: TokenSocialProps) => {
               <Coins className="w-6 h-6 text-[#00A3FF]" />
               <span className="text-[#00A3FF]">+0.1 SOL</span>
             </div>
-            <h4 className="text-lg font-medium mb-2">Revoke Mint 💸</h4>
+            <h4 className="text-lg font-medium mb-2">Revoke Mint</h4>
             <p className="text-sm text-gray-400 mb-4">
               Mint Authority allows you to mint more supply of your token.
             </p>
@@ -167,7 +166,7 @@ const TokenSocial = ({ onBack }: TokenSocialProps) => {
               <FileEdit className="w-6 h-6 text-[#00A3FF]" />
               <span className="text-[#00A3FF]">+0.1 SOL</span>
             </div>
-            <h4 className="text-lg font-medium mb-2">Revoke Update ✏️</h4>
+            <h4 className="text-lg font-medium mb-2">Revoke Update</h4>
             <p className="text-sm text-gray-400 mb-4">
               Update Authority allows you to update the token metadata.
             </p>
