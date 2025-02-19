@@ -6,7 +6,6 @@ import TokenDetails from '../components/TokenForm/TokenDetails';
 import TokenSupply from '../components/TokenForm/TokenSupply';
 import TokenSocial from '../components/TokenForm/TokenSocial';
 import FormProgress from '../components/TokenForm/FormProgress';
-import { Squares } from '../components/ui/squares-background';
 
 const STEPS = [
   { title: 'Token Details', number: 1 },
@@ -36,29 +35,18 @@ const Index = () => {
   };
 
   return (
-    <div className="w-screen h-screen overflow-x-hidden relative">
-      <div className="fixed top-0 left-0 w-full h-full">
-        <Squares 
-          direction="diagonal"
-          speed={0.5}
-          squareSize={40}
-          borderColor="#333333"
-          hoverFillColor="#222222"
-        />
-      </div>
-      <div className="relative z-10 min-h-screen">
-        <Navbar />
-        {!showForm ? (
-          <Hero onWalletConnected={handleWalletConnected} />
-        ) : (
-          <div className="min-h-screen pt-24 pb-12 px-4">
-            <div className="max-w-4xl mx-auto">
-              <FormProgress currentStep={currentStep} steps={STEPS} />
-              {renderStep()}
-            </div>
+    <div className="min-h-screen bg-[#0B1220]">
+      <Navbar />
+      {!showForm ? (
+        <Hero onWalletConnected={handleWalletConnected} />
+      ) : (
+        <div className="min-h-screen pt-24 pb-12 px-4">
+          <div className="max-w-4xl mx-auto">
+            <FormProgress currentStep={currentStep} steps={STEPS} />
+            {renderStep()}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
