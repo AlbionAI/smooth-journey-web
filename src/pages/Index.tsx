@@ -36,8 +36,8 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen relative bg-[#060606]">
-      <div className="absolute inset-0 z-0">
+    <div className="min-h-screen w-full relative">
+      <div className="fixed inset-0 w-full h-full">
         <Squares 
           direction="diagonal"
           speed={0.5}
