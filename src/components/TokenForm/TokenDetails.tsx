@@ -1,3 +1,4 @@
+
 import { useState, useRef } from "react";
 import { Upload } from "lucide-react";
 import { useToast } from "../../hooks/use-toast";
@@ -23,83 +24,126 @@ const TokenDetails = ({ onNext }: TokenDetailsProps) => {
     onNext();
   };
 
-  const resizeImage = (file: File): Promise<string> => {
+  const validateImage = (file: File): Promise<boolean> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
+  const resizeImage = async (file: File): Promise<string> => {
+    // First validate if it's actually an image
+    const isValid = await validateImage(file);
+    if (!isValid) {
+      throw new Error("Invalid image file");
+    }
+
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
-          if (img.width > 512 || img.height > 512) {
-            const canvas = document.createElement('canvas');
-            canvas.width = 512;
-            canvas.height = 512;
-            const ctx = canvas.getContext('2d');
+          const canvas = document.createElement('canvas');
+          canvas.width = 512;
+          canvas.height = 512;
+          const ctx = canvas.getContext('2d');
+          
+          if (ctx) {
+            // Fill background with black
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, 512, 512);
             
-            if (ctx) {
-              const scale = Math.min(512 / img.width, 512 / img.height);
-              const x = (512 - img.width * scale) / 2;
-              const y = (512 - img.height * scale) / 2;
-              
-              ctx.fillStyle = '#000000';
-              ctx.fillRect(0, 0, 512, 512);
-              
-              ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
-              resolve(canvas.toDataURL('image/png'));
-            } else {
-              reject(new Error('Could not get canvas context'));
+            // Calculate scaling
+            const scale = Math.min(512 / img.width, 512 / img.height);
+            const x = (512 - img.width * scale) / 2;
+            const y = (512 - img.height * scale) / 2;
+            
+            // Draw image
+            ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+            
+            try {
+              const dataUrl = canvas.toDataURL('image/png');
+              resolve(dataUrl);
+            } catch (err) {
+              reject(new Error("Failed to convert canvas to data URL"));
             }
           } else {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
+            reject(new Error('Could not get canvas context'));
           }
         };
+        img.onerror = () => reject(new Error('Failed to load image'));
         img.src = e.target?.result as string;
       };
-      reader.onerror = reject;
+      reader.onerror = () => reject(new Error('Failed to read file'));
       reader.readAsDataURL(file);
     });
   };
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
-      try {
-        const resizedImage = await resizeImage(file);
-        setImage(resizedImage);
-        toast({
-          title: "Image uploaded",
-          description: "Image has been resized to 500x500",
-        });
-      } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Upload failed",
-          description: "Failed to process the image",
-        });
-      }
+    if (!file) {
+      toast({
+        variant: "destructive",
+        title: "Upload failed",
+        description: "No file selected",
+      });
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      toast({
+        variant: "destructive",
+        title: "Upload failed",
+        description: "Please select an image file",
+      });
+      return;
+    }
+
+    try {
+      const resizedImage = await resizeImage(file);
+      setImage(resizedImage);
+      toast({
+        title: "Image uploaded",
+        description: "Image has been resized to 512x512",
+      });
+    } catch (error) {
+      console.error('Image processing error:', error);
+      toast({
+        variant: "destructive",
+        title: "Upload failed",
+        description: "Failed to process the image. Please try another image.",
+      });
     }
   };
 
   const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-      try {
-        const resizedImage = await resizeImage(file);
-        setImage(resizedImage);
-        toast({
-          title: "Image uploaded",
-          description: "Image has been resized to 500x500",
-        });
-      } catch (error) {
-        toast({
-          variant: "destructive",
-          title: "Upload failed",
-          description: "Failed to process the image",
-        });
-      }
+    if (!file || !file.type.startsWith('image/')) {
+      toast({
+        variant: "destructive",
+        title: "Upload failed",
+        description: "Please drop a valid image file",
+      });
+      return;
+    }
+
+    try {
+      const resizedImage = await resizeImage(file);
+      setImage(resizedImage);
+      toast({
+        title: "Image uploaded",
+        description: "Image has been resized to 512x512",
+      });
+    } catch (error) {
+      console.error('Image processing error:', error);
+      toast({
+        variant: "destructive",
+        title: "Upload failed",
+        description: "Failed to process the image. Please try another image.",
+      });
     }
   };
 
@@ -147,7 +191,7 @@ const TokenDetails = ({ onNext }: TokenDetailsProps) => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <p className="text-emerald-500">Logo uploaded and resized to 500x500!</p>
+                <p className="text-emerald-500">Logo uploaded and resized to 512x512!</p>
               </div>
             ) : (
               <div className="text-gray-400 flex flex-col items-center">
