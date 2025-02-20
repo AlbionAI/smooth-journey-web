@@ -1,4 +1,3 @@
-
 interface FormProgressProps {
   currentStep: number;
   steps: { title: string; number: number }[];
