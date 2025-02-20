@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 
 interface WalletConnectProps {
@@ -20,6 +21,8 @@ const WalletConnect = ({ onConnect }: WalletConnectProps) => {
   };
 
   useEffect(() => {
+    if (!window.solana) return;
+
     const handleDisconnect = () => {
       console.log("Disconnected from wallet");
     };

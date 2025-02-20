@@ -7,11 +7,13 @@ interface Window {
   };
   solana?: {
     isPhantom?: boolean;
-    connect: () => Promise<{ publicKey: string }>;
+    connect: () => Promise<{ publicKey: { toString: () => string } }>;
     disconnect: () => Promise<void>;
     publicKey?: {
       toString: () => string;
     };
+    on: (event: string, callback: () => void) => void;
+    removeListener: (event: string, callback: () => void) => void;
   };
   solflare?: {
     connect: () => Promise<void>;
