@@ -1,6 +1,6 @@
 
 import { Link, useNavigate } from "react-router-dom";
-import { Rocket, Droplets } from "lucide-react";
+import { Home, Rocket, Droplets } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
@@ -69,8 +69,15 @@ const Navbar = () => {
               className="flex items-center px-4 py-2 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-all"
               onClick={handleNavigation}
             >
+              <Home className="w-4 h-4 mr-2" />
+              Home
+            </Link>
+            <Link
+              to="/promote"
+              className="flex items-center px-3 py-2 rounded-lg text-gray-300 hover:text-emerald-400 transition-colors"
+            >
               <Rocket className="w-4 h-4 mr-2" />
-              Create Token
+              Promote
             </Link>
             <a
               href="https://raydium.io/liquidity-pools/"
