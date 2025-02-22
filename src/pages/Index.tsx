@@ -1,11 +1,11 @@
 
 import { useState } from 'react';
-import Navbar from '../components/layout/Navbar';
-import Hero from '../components/home/Hero';
-import TokenDetails from '../components/token/TokenDetails';
-import TokenSupply from '../components/token/TokenSupply';
-import TokenSocial from '../components/token/TokenSocial';
-import FormProgress from '../components/token/FormProgress';
+import Navbar from '../components/Navbar';
+import Hero from '../components/Hero';
+import TokenDetails from '../components/TokenForm/TokenDetails';
+import TokenSupply from '../components/TokenForm/TokenSupply';
+import TokenSocial from '../components/TokenForm/TokenSocial';
+import FormProgress from '../components/TokenForm/FormProgress';
 
 const STEPS = [
   { title: 'Token Details', number: 1 },

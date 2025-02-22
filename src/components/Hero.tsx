@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import WalletConnect from "../wallet/WalletConnect";
+import WalletConnect from "./WalletConnect";
 
 interface HeroProps {
   onWalletConnected: () => void;
